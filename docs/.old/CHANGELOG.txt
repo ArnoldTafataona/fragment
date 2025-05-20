@@ -1,0 +1,9 @@
+In order to be able to encrypt and decrypt with the same key/reversed too, the round functions have to be 
+equally spread, such as; in a 6 round function: (
+    f1(x, k), 
+    f2(x, k), 
+    f3(x, k), 
+    f3(x, k), 
+    f2(x, k), 
+    f1(x, k),
+).
