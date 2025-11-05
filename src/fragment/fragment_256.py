@@ -6,7 +6,10 @@ import time
 
 def b2i(string: bytes, length: int) -> list[int]:
     """Split bytestring into a list of integers"""
-    return [int.from_bytes(string[x : x + length], "big") for x in range(0, len(string), length)]
+    return [
+        int.from_bytes(string[x : x + length], "big")
+        for x in range(0, len(string), length)
+    ]
 
 
 def i2b(integers: list) -> bytes:
@@ -112,11 +115,15 @@ def key_schedule(encryption_key: bytes) -> list:
         key_state[0] ^= key
 
         # Apply 4 round ARX mixer
-        key_state = key_schedule_mixer(key_state=key_state, constants=CONSTANTS, repetitions=4)
+        key_state = key_schedule_mixer(
+            key_state=key_state, constants=CONSTANTS, repetitions=4
+        )
 
     # ==== Extended key mixing state
     # Apply 8 round ARX mixer
-    key_state = key_schedule_mixer(key_state=key_state, constants=CONSTANTS, repetitions=8)
+    key_state = key_schedule_mixer(
+        key_state=key_state, constants=CONSTANTS, repetitions=8
+    )
 
     # ==== Key squeezing state
     NUMBER_OF_KEYS = 256
@@ -130,7 +137,9 @@ def key_schedule(encryption_key: bytes) -> list:
         round_keys.append(key_state[0])
 
         # Apply 4 round ARX mixer
-        key_state = key_schedule_mixer(key_state=key_state, constants=CONSTANTS, repetitions=4)
+        key_state = key_schedule_mixer(
+            key_state=key_state, constants=CONSTANTS, repetitions=4
+        )
 
     # ==== Sort round keys
     # Temporary rounds key list. Split keys into sets[lists] containing for 4-32bit keys.
@@ -222,7 +231,7 @@ def main() -> None:
 
     print(f"original text: {i2b(b2i(string=iv, length=4)).hex()}")
     print(f"- cipher text: {i2b(enc_data).hex()}")
-    # print(f"-- plain text: {i2b(dec_data).hex()}")
+    print(f"-- plain text: {i2b(dec_data).hex()}")
 
     print(f"Completed {len(ROUND_KEYS)} rounds in {b-a} second(s).")
 
